@@ -33,23 +33,21 @@ public class _02_Etsy_Task2 {
     public void clickOnRandomMenuLink() throws InterruptedException {
         List<String> menuXpath = getMenuXpath();
         String randomXpath = selectRandomXpath(menuXpath);
-        System.out.println("randomXpath = " + randomXpath);
         WebElement randomMenuLink = driver.findElement(By.xpath(randomXpath));
-        randomMenuLink.click();
 
-        Thread.sleep(5000);
-        System.out.println(driver.getCurrentUrl());
-
-        while (!randomMenuLink.getText().equalsIgnoreCase("Holiday Shop") &&
+        if (!randomMenuLink.getText().equalsIgnoreCase("Holiday Shop") &&
                 !randomMenuLink.getText().equalsIgnoreCase( "Gifts & Gift Cards")){
+
+            randomMenuLink.click();
             List<WebElement> productList = driver.findElements(
                     By.xpath("//h1[@id = 'search-results-top']/following::a/div[2]/h3"));
             selectRandomProduct(productList);
+            driver.navigate().back();
+        } else {
+            randomMenuLink.click();
         }
-
+        driver.quit();
     }
-
-
 
     public static List<String> getMenuXpath(){
         List<WebElement> elements = driver.findElements(
@@ -61,7 +59,7 @@ public class _02_Etsy_Task2 {
             String element_text = elements.get(i).getText();
             String xpath = element_to_string
                     .substring(element_to_string.indexOf("//"), element_to_string.lastIndexOf("]"))
-                    + "[contains(text(), \'" + element_text + "\')]";;
+                    + "[contains(text(), \'" + element_text + "\')]";
             xpathList.add(xpath);
         }
         return xpathList;
