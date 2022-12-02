@@ -48,7 +48,22 @@ public class Task1_1 {
         double item1 = Double.parseDouble(driver.findElement(By.xpath("//*[@id = 'item_4_title_link']/following::div[2]//div")).getText().substring(1));
         double item2 = Double.parseDouble(driver.findElement(By.xpath("//*[@id = 'item_1_title_link']/following::div[2]//div")).getText().substring(1));
         double item3 = Double.parseDouble(driver.findElement(By.xpath("//*[@id = 'item_3_title_link']/following::div[2]//div")).getText().substring(1));
-        double summary_subtotal_label = Double.parseDouble(driver.findElement(By.className("summary_subtotal_label")).getText().replaceAll("[^\\d.]", ""));
+        double subtotal = Double.parseDouble(driver.findElement(By.className("summary_subtotal_label")).getText().replaceAll("[^\\d.]", ""));
+        double tax_amount = Double.parseDouble(driver.findElement(By.className("summary_tax_label")).getText().replaceAll("[^\\d.]", ""));
+        double total_amount = Double.parseDouble(driver.findElement(By.className("summary_total_label")).getText().replaceAll("[^\\d.]", ""));
+
+        Assert.assertEquals(item1, 29.99);
+        Assert.assertEquals(item2, 15.99);
+        Assert.assertEquals(item3, 15.99);
+        Assert.assertEquals(tax_amount, 4.96);
+        Assert.assertEquals(subtotal, (item3+item1+item2), 0.001);
+        Assert.assertEquals(total_amount, (tax_amount + subtotal), 0.001);
+
+        driver.findElement(By.id("finish")).click();
+
+        String complete_msg = driver.findElement(By.xpath("//*[contains(text(), 'Complete')]")).getText();
+        Assert.assertTrue(complete_msg.contains("Complete".toUpperCase()));
+        driver.quit();
 
     }
 }
