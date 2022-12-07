@@ -31,7 +31,8 @@ public class _02_Etsy_Task2 {
 
     @Test
     public void clickOnRandomMenuLink() throws InterruptedException {
-        List<String> menuXpath = getMenuXpath();
+        String xpath = "//ul[@data-ui='top-nav-category-list']//span";
+        List<String> menuXpath = getMenuXpath(xpath);
         String randomXpath = selectRandomXpath(menuXpath);
         WebElement randomMenuLink = driver.findElement(By.xpath(randomXpath));
 
@@ -49,18 +50,17 @@ public class _02_Etsy_Task2 {
         driver.quit();
     }
 
-    public static List<String> getMenuXpath(){
-        List<WebElement> elements = driver.findElements(
-                By.xpath("//ul[@data-ui='top-nav-category-list']//span"));
+    public static List<String> getMenuXpath(String xpath){
+        List<WebElement> elements = driver.findElements(By.xpath(xpath));
         List<String> xpathList = new ArrayList<>();
 
         for (int i = 0; i < elements.size(); i++) {
             String element_to_string = elements.get(i).toString();
             String element_text = elements.get(i).getText();
-            String xpath = element_to_string
+            String element_xpath = element_to_string
                     .substring(element_to_string.indexOf("//"), element_to_string.lastIndexOf("]"))
                     + "[contains(text(), \'" + element_text + "\')]";
-            xpathList.add(xpath);
+            xpathList.add(element_xpath);
         }
         return xpathList;
     }

@@ -27,79 +27,85 @@ public class _01_Etsy_Task1 {
     // #catnav-primary-link-10855
 
     @Test
-    public static void listOfMenuItems() throws InterruptedException {
+    public static void clickRandomMenuItem() {
         List<WebElement> menuWebElementList = driver.findElements(
                 By.xpath("//ul[@data-ui = 'top-nav-category-list']//li"));
         List<String> menuStringList = getListOfWebElements(menuWebElementList);
-
-        Assert.assertEquals(menuStringList.size(), menuWebElementList.size());
-
-        selectRandomProduct(menuWebElementList);
-        driver.navigate().back();
-
-        Thread.sleep(2000);
-        menuWebElementList = driver.findElements(
-                By.xpath("//ul[@data-ui = 'top-nav-category-list']//li"));
+        System.out.println("menuStringList = " + menuStringList);
 
         int randomIndex = randomNumberGenerator(menuWebElementList.size());
         String randomString = menuStringList.get(randomIndex);
         String randomWebElement = menuWebElementList.get(randomIndex).getText();
+        System.out.println("randomIndex = " + randomIndex);
+        System.out.println("randomString = " + randomString);
+        System.out.println("randomWebElement = " + randomWebElement);
+
+        int itemIndex = getIndexOfSelectedItem(menuWebElementList, randomString);
+        selectRandomProduct(menuWebElementList, randomIndex);
 
         Assert.assertEquals(randomString, randomWebElement);
+        Assert.assertEquals(menuStringList.size(), menuWebElementList.size());
+        Assert.assertEquals(randomIndex, itemIndex);
 
-        driver.quit();
+        driver.navigate().back();
+
+//        driver.quit();
     }
+
     @Test(priority = 1)
-    public static void navigateToJewelry() throws InterruptedException{
+    public static void clickOnRandomJewelryProduct() {
         WebElement jewelry_btn = driver.findElement(By.xpath("//span[@id = 'catnav-primary-link-10855']"));
         jewelry_btn.click();
 
         List<WebElement> productList = driver.findElements(
                 By.xpath("//h1[@id = 'search-results-top']/following::a/div[2]/h3"));
         List<String> stringList = getListOfWebElements(productList);
-        selectRandomProduct(productList);
-
-        Assert.assertEquals(stringList.size(), productList.size());
+        System.out.println("stringList = " + stringList);
 
         int randomIndex = randomNumberGenerator(productList.size());
         String randomString = stringList.get(randomIndex);
         String randomWebElement = productList.get(randomIndex).getText();
 
+        System.out.println("randomIndex = " + randomIndex);
+        System.out.println("randomString = " + randomString);
+        System.out.println("randomWebElement = " + randomWebElement);
+
+        int itemIndex = getIndexOfSelectedItem(productList, randomString);
+        selectRandomProduct(productList, randomIndex);
+
         Assert.assertEquals(randomString, randomWebElement);
-        driver.quit();
+        Assert.assertEquals(stringList.size(), productList.size());
+        Assert.assertEquals(randomIndex, itemIndex);
+
+//        driver.quit();
     }
 
-    @Test(priority = 2)
-    public static void getMenuXpath(){
-        List<WebElement> elements = driver.findElements(
-                By.xpath("//ul[@data-ui='top-nav-category-list']//span"));
-        List<String> xpathList = new ArrayList<>();
-
-        for (int i = 0; i < elements.size(); i++) {
-            String element_to_string = elements.get(i).toString();
-            String element_text = elements.get(i).getText();
-            String xpath = element_to_string
-                    .substring(element_to_string.indexOf("//"), element_to_string.lastIndexOf("]"))
-                    + "[contains(text(), \'" + element_text + "\')]";;
-            xpathList.add(xpath);
-            System.out.println("xpathList.get(i) = " + xpathList.get(i));
-        }
-    }
-
-    public static void selectRandomProduct(List<WebElement> itemList) {
-        int randomIndex = randomNumberGenerator(itemList.size());
+    public static void selectRandomProduct(List<WebElement> itemList, int randomIndex) {
         itemList.get(randomIndex).click();
+    }
+
+    public static void selectSpecificMenuItem(List<WebElement> menuList, String menuItem) {
+        for (int i = 0; i < menuList.size(); i++) {
+            if (menuList.get(i).getText().equalsIgnoreCase(menuItem)) menuList.get(i).click();
+        }
     }
 
     public static int randomNumberGenerator(int n) {
         return new Random().nextInt(n);
     }
 
-    public static List<String> getListOfWebElements(List<WebElement> webElements){
+    public static List<String> getListOfWebElements(List<WebElement> webElements) {
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < webElements.size(); i++) {
             stringList.add(webElements.get(i).getText());
         }
         return stringList;
+    }
+
+    public static int getIndexOfSelectedItem(List<WebElement> list, String element) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getText().equalsIgnoreCase(element)) return i;
+        }
+        return -1;
     }
 }

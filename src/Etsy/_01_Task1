@@ -1,23 +1,20 @@
-TC1.1 Click Random Menu item
+TC1.1 Click on Random Menu item
 1. Navigate to https://www.etsy.com/
 2. Get the list of Menu WebElements displayed
 3. Convert list of Menu WebElements to String list
-4. Click on Random Menu item
-6. Validate if both String list and WebElement list have same size
-7. Generate a random index and check if product names in both lists are equal
+4. Generate a random index and check if product names in both lists are equal
+5. Validate if both String list and WebElement list have same size
+6. Validate if random index is same as index of selected item
+7. Click on Random Menu item
 
-TC1.2 Navigate to Random product in Jewelry section
+TC1.2 Navigate to a Random product in Jewelry section
 1. Navigate to https://www.etsy.com/
 2. Click on Jewelry & Accessories
 3. Get the list of product WebElements displayed
 4. Convert list of product WebElements to String list
-5. Click on Random product
-6. Validate if both String list and WebElement list have same size
-7. Generate a random index and check if product names in both lists are equal
-
-TC1.3
-1. Navigate to https://www.etsy.com/
-2. Get xpath-list of Menu WebElements
+5. Validate if both String list and WebElement list have same size
+6. Generate a random index and check if product names in both lists are equal
+7. Click on Random product
 
 
 
