@@ -47,6 +47,27 @@ public class _01_Etsy_Task1_1 {
     public static void clickOnRandomJewelryProduct() {
         WebElement jewelryBtn = driver.findElement(By.id("catnav-primary-link-10855"));
         jewelryBtn.click();
+        List<WebElement> productList = driver.findElements(By.xpath("//h1[@id = 'search-results-top']/following::a/div[2]/h3"));
+        List<String> stringList = getListOfWebElements(productList);
+        int randomIndex = randomNumberGenerator(productList.size());
+        String randomItemStr = stringList.get(randomIndex);
+        String randomWebElement = productList.get(randomIndex).getText();
+
+        System.out.println("randomIndex = " + randomIndex);
+        System.out.println("randomItemStr = " + randomItemStr);
+        System.out.println("randomWebElement = " + randomWebElement);
+
+        int itemIndex = getIndexOfSelectedItem(productList, randomItemStr);
+        selectRandomProduct(productList, randomIndex);
+
+        Assert.assertEquals(randomItemStr, randomWebElement);
+        Assert.assertEquals(productList.size(), stringList.size());
+        Assert.assertEquals(randomIndex, itemIndex);
+    }
+
+    @Test
+    public static void clickOnRandomMenuUsingXpath(){
+
     }
 
     public static List<String> getListOfWebElements(List<WebElement> webElementList) {
@@ -70,5 +91,21 @@ public class _01_Etsy_Task1_1 {
 
     public static void selectRandomProduct(List<WebElement> itemList, int randomIndex) {
         itemList.get(randomIndex).click();
+    }
+
+    public static List<String> getMenuXpath(String xpath){
+        List<WebElement> webElementList = driver.findElements(By.xpath(xpath));
+        List<String> xpathList = new ArrayList<>();
+
+        for (WebElement webElement : webElementList) {
+            String elementToStr = webElement.toString();
+            String elementText = webElement.getText();
+            String elementXpath = elementToStr
+                    .substring(elementToStr.indexOf("//"), elementToStr.lastIndexOf("]"))
+                    + "span[contains(text(), \'" + elementText + "\')]";
+            xpathList.add(elementXpath);
+            // //span[contains(text(), 'Holiday Shop')]
+        }
+        return xpathList;
     }
 }

@@ -11,14 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
-/*
-TC2.1
-1. Navigate to https://www.etsy.com/
-2. Click on Random Menu Item Link
-3. Click on Random product
-*/
-public class _02_Etsy_Task2 {
+public class _03_Etsy_Task3 {
     static WebDriver driver;
 
     @BeforeMethod
@@ -29,29 +22,28 @@ public class _02_Etsy_Task2 {
         driver.manage().window().maximize();
     }
 
+//*[contains(text(), '14k Solid Gold Letter')]
+
+    String menuXpath = "//ul[@data-ui='top-nav-category-list']//span";
+    String itemListXpath = "//h1[@id = 'search-results-top']/following::a/div[2]/h3";
+
     @Test
     public void clickOnRandomItem(){
-        String linkStr = clickOnRandomMenuLink();
-        if (!linkStr.equalsIgnoreCase("Holiday Shop") &&
-                !linkStr.equalsIgnoreCase( "Gifts & Gift Cards")){
-            List<WebElement> productList = driver.findElements(
-                    By.xpath("//h1[@id = 'search-results-top']/following::a/div[2]/h3"));
-            selectRandomProduct(productList);
-            driver.navigate().back();
+        clickOnRandomWebElement(menuXpath);
+        try{
+            clickOnRandomWebElement(itemListXpath);
+        }catch (Exception e){
+            System.out.println("Current category has no listed products!");
         }
     }
 
-    public String clickOnRandomMenuLink() {
-        String xpath = "//ul[@data-ui='top-nav-category-list']//span";
-        List<String> menuXpath = getMenuXpath(xpath);
+    public void clickOnRandomWebElement(String xpath) {
+        List<String> menuXpath = getXpath(xpath);
         String randomXpath = selectRandomXpath(menuXpath);
         WebElement randomMenuLink = driver.findElement(By.xpath(randomXpath));
-        String randomMenuLinkStr = randomMenuLink.getText();
         randomMenuLink.click();
-
-        return randomMenuLinkStr;
     }
-    public static List<String> getMenuXpath(String xpath){
+    public static List<String> getXpath(String xpath){
         List<WebElement> elements = driver.findElements(By.xpath(xpath));
         List<String> xpathList = new ArrayList<>();
 
@@ -61,26 +53,11 @@ public class _02_Etsy_Task2 {
         }
         return xpathList;
     }
-
     public static String selectRandomXpath(List<String>xpathList){
         int randomIndex = randomNumberGenerator(xpathList.size());
         return xpathList.get(randomIndex);
     }
-
-    public static void selectRandomProduct(List<WebElement> itemList) {
-        int randomIndex = randomNumberGenerator(itemList.size());
-        itemList.get(randomIndex).click();
-    }
-
     public static int randomNumberGenerator(int n) {
         return new Random().nextInt(n);
-    }
-
-    public static List<String> getListOfWebElements(List<WebElement> webElements){
-        List<String> stringList = new ArrayList<>();
-        for (WebElement webElement : webElements) {
-            stringList.add(webElement.getText());
-        }
-        return stringList;
     }
 }
