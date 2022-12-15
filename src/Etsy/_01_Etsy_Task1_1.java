@@ -93,16 +93,13 @@ public class _01_Etsy_Task1_1 {
         itemList.get(randomIndex).click();
     }
 
-    public static List<String> getMenuXpath(String xpath){
+    public static List<String> getXpath(String xpath){
         List<WebElement> webElementList = driver.findElements(By.xpath(xpath));
         List<String> xpathList = new ArrayList<>();
+        String elementXpath;
 
         for (WebElement webElement : webElementList) {
-            String elementToStr = webElement.toString();
-            String elementText = webElement.getText();
-            String elementXpath = elementToStr
-                    .substring(elementToStr.indexOf("//"), elementToStr.lastIndexOf("]"))
-                    + "span[contains(text(), \'" + elementText + "\')]";
+            elementXpath = "//*[contains(text(), \'" + webElement.getText() + "\')]";
             xpathList.add(elementXpath);
             // //span[contains(text(), 'Holiday Shop')]
         }
