@@ -18,11 +18,7 @@ public class VinylSticker {
     @Test
     public static void addVinylSticker() throws InterruptedException {
         List<String> selectOpsXpath_List;
-        Select ops;
-        List<WebElement> opsList;
-        WebElement selection;
         List<WebElement> selectedOps = new ArrayList<>();
-        String qty;
         String text = "Test";
 
         setUp();
@@ -30,27 +26,97 @@ public class VinylSticker {
         selectOpsXpath_List = getXpath(getSelectOpsXpath());
 
         for (String optionsXpath : selectOpsXpath_List) {
-            ops = new Select(driver.findElement(By.xpath(optionsXpath)));
-            opsList = ops.getOptions();
-            selection = opsList.get(randomNumberGenerator(opsList.size()));
-            selectedOps.add(selection);
-            selection.click();
             Thread.sleep(2000);
+            selectOption(optionsXpath);
         }
-        Thread.sleep(3000);
-        WebElement textInput = driver.findElement(By.id("listing-page-personalization-textarea"));
+        Thread.sleep(2000);
+        WebElement textInput = driver.findElement(By.id(getTextInput()));
         textInput.sendKeys(text);
 
-        try {
-            driver.findElement(By.xpath("//button[contains(text(), 'Add to cart')]")).click();
-            Thread.sleep(3000);
-            WebElement successMsg = driver.findElement(By.xpath("//h3[text() = 'Added to cart']"));
-            Assert.assertEquals(successMsg.getText(), "Added to cart");
-        } catch (Exception e){
-            System.out.println("Item is not added to cart");
-            driver.findElement(By.xpath("//a[contains(text(), 'View cart & check out')]"));
-        }
+        Thread.sleep(2000);
+        selectOption(getQtySelXpath());
 
-        driver.findElement(By.xpath("//a[text() = 'Go to cart']")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(getAddToCart())).click();
+
+        boolean isCurrentURL = driver.getCurrentUrl().equalsIgnoreCase("https://www.etsy.com/cart");
+        if (isCurrentURL) {
+            try {
+                Thread.sleep(2000);
+                driver.findElement(By.xpath(getViewCart())).click();
+            } catch (Exception e1) {
+                Thread.sleep(2000);
+                driver.findElement(By.xpath(getGoToCart())).click();
+            }
+        }
+        tearDown();
+    }
+
+    @Test
+    public void selectOpsRandomly() throws InterruptedException {
+        List<String> selectOpsXpath_List;
+        String text = "Test";
+
+        setUp();
+
+        clickOnRandomWebElement(getMenuXpath());
+        try {
+            clickOnRandomWebElement(getItemListXpath());
+        } catch (Exception e) {
+            System.out.println("Current category has no listed products");
+        }
+        System.out.println(driver);
+        System.out.println(driver.getCurrentUrl());
+        if (driver != null) {
+            switchToNewTab(driver);
+
+            try {
+                selectOpsXpath_List = getXpath(getSelectOpsXpath());
+                for (String optionsXpath : selectOpsXpath_List) {
+                    Thread.sleep(3000);
+                    selectOption(optionsXpath);
+                }
+            } catch (Exception e1) {
+                System.out.println("No Options available");
+            }
+
+            try {
+                Thread.sleep(2000);
+                WebElement textInput = driver.findElement(By.id(getTextInput()));
+                textInput.sendKeys(text);
+            } catch (Exception e2) {
+                System.out.println("No text required");
+            }
+
+            try {
+                Thread.sleep(2000);
+                selectOption(getQtySelXpath());
+            } catch (Exception e3) {
+                System.out.println("No quantity needed");
+            }
+
+            try {
+                Thread.sleep(2000);
+                driver.findElement(By.xpath(getAddToCart())).click();
+            } catch (Exception ignored){
+            }
+
+            try {
+                Thread.sleep(2000);
+                driver.findElement(By.xpath(getViewCart())).click();
+            } catch (Exception ignored) {
+            }
+            try {
+                Thread.sleep(2000);
+                driver.findElement(By.xpath(getGoToCart())).click();
+            } catch (Exception ignored) {
+            }
+            try {
+                WebElement checkout = driver.findElement(By.xpath(getCheckOut()));
+                Assert.assertTrue(checkout.getText().contains("Proceed to checkout"));
+            } catch (Exception ignored) {
+            }
+        }
+        tearDown();
     }
 }
