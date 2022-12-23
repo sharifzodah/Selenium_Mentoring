@@ -94,8 +94,17 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="TEST" name="junit:junit:4.13" level="application" />
-    <orderEntry type="library" name="testng-6.9.6" level="application" />
-    <orderEntry type="library" name="junit:junit:4.13" level="application" />
+    <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="library" name="testng" level="project" />
+    <orderEntry type="library" name="async-http-client-2.12.3" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../Downloads - 2017/webdrivermanager-5.3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

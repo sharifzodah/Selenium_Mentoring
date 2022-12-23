@@ -34,7 +34,5 @@ public class Vinyl2 {
             Thread.sleep(3000);
         }
 
-
-
     }
 }

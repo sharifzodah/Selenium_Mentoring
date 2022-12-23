@@ -2,6 +2,7 @@ package Etsy;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,7 +19,6 @@ public class VinylSticker {
     @Test
     public static void addVinylSticker() throws InterruptedException {
         List<String> selectOpsXpath_List;
-        List<WebElement> selectedOps = new ArrayList<>();
         String text = "Test";
 
         setUp();
@@ -49,6 +49,13 @@ public class VinylSticker {
                 driver.findElement(By.xpath(getGoToCart())).click();
             }
         }
+
+        Thread.sleep(2000);
+        WebElement checkout = driver.findElement(By.xpath(getCheckOut()));
+        System.out.println("checkout = " + checkout.getText());
+        Assert.assertTrue(checkout.getText().contains("Proceed to checkout"));
+
+        Thread.sleep(5000);
         tearDown();
     }
 
@@ -64,22 +71,22 @@ public class VinylSticker {
             clickOnRandomWebElement(getItemListXpath());
         } catch (Exception e) {
             System.out.println("Current category has no listed products");
+            driver = null;
+            tearDown();
         }
-        System.out.println(driver);
-        System.out.println(driver.getCurrentUrl());
+
         if (driver != null) {
             switchToNewTab(driver);
 
             try {
                 selectOpsXpath_List = getXpath(getSelectOpsXpath());
                 for (String optionsXpath : selectOpsXpath_List) {
-                    Thread.sleep(3000);
+                    Thread.sleep(4000);
                     selectOption(optionsXpath);
                 }
             } catch (Exception e1) {
                 System.out.println("No Options available");
             }
-
             try {
                 Thread.sleep(2000);
                 WebElement textInput = driver.findElement(By.id(getTextInput()));
@@ -87,20 +94,17 @@ public class VinylSticker {
             } catch (Exception e2) {
                 System.out.println("No text required");
             }
-
             try {
                 Thread.sleep(2000);
                 selectOption(getQtySelXpath());
             } catch (Exception e3) {
                 System.out.println("No quantity needed");
             }
-
             try {
                 Thread.sleep(2000);
                 driver.findElement(By.xpath(getAddToCart())).click();
-            } catch (Exception ignored){
+            } catch (Exception ignored) {
             }
-
             try {
                 Thread.sleep(2000);
                 driver.findElement(By.xpath(getViewCart())).click();
@@ -117,6 +121,7 @@ public class VinylSticker {
             } catch (Exception ignored) {
             }
         }
+        Thread.sleep(3000);
         tearDown();
     }
 }
