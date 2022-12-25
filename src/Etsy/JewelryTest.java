@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import java.util.Set;
 
 import static utils.BaseClass.*;
+import static utils.locators.*;
 import static utils.reusableMethods.*;
 
 public class JewelryTest {
@@ -15,9 +16,9 @@ public class JewelryTest {
 
     @Test
     public void clickOnRandomJewelry() {
-        setUp();
-        WebElement clothing = driver.findElement(By.xpath("//*[contains(text(), 'Jewelry & Accessories')]"));
-        clothing.click();
+        setUp(url);
+        WebElement jewelryMenu = driver.findElement(By.xpath("//*[contains(text(), 'Jewelry & Accessories')]"));
+        jewelryMenu.click();
         try {
             clickOnRandomWebElement(itemListXpath);
         } catch (Exception e) {

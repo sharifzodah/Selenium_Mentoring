@@ -11,14 +11,14 @@ import static utils.BaseClass.*;
 import static utils.locators.*;
 import static utils.reusableMethods.*;
 
-public class VinylSticker {
+public class Etsy_Add_To_Cart {
 
     @Test
     public static void addSpecificItem() throws InterruptedException {
         List<String> selectOpsXpath_List;
         String text = "Test";
 
-        setUp();
+        setUp(url);
 
         selectOpsXpath_List = getXpath(getSelectOpsXpath());
 
@@ -61,7 +61,7 @@ public class VinylSticker {
         List<String> selectOpsXpath_List;
         String text = "Test";
 
-        setUp();
+        setUp(url);
 
         clickOnRandomWebElement(getMenuXpath());
         try {

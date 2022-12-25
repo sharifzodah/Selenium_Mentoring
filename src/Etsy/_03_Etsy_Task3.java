@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import static utils.BaseClass.*;
+import static utils.locators.*;
 
 public class _03_Etsy_Task3 {
 
@@ -30,7 +31,7 @@ public class _03_Etsy_Task3 {
 
     @Test
     public void clickOnRandomItem() {
-        setUp();
+        setUp(url);
         clickOnRandomWebElement(menuXpath);
         try {
             clickOnRandomWebElement(itemListXpath);

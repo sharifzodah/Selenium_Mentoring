@@ -2,6 +2,7 @@ package utils;
 
 public class locators {
 
+    public static String url = "https://www.etsy.com";
     final static String menuXpath = "//ul[@data-ui='top-nav-category-list']//span";
     final static String itemListXpath = "//h1[@id = 'search-results-top']/following::a/div[2]/h3";
     final static String selectOpsXpath = "//div[@data-selector = 'listing-page-variations' ]//select";

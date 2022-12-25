@@ -17,7 +17,7 @@ public class _05_Task_RandomSelection {
 
     @Test
     public void clickOnRandomXpath() {
-        setUp();
+        setUp(url);
         clickOnRandomWebElement(getMenuXpath());
         try {
             clickOnRandomWebElement(getItemListXpath());
