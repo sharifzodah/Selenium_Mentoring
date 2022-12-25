@@ -17,6 +17,10 @@ import static utils.locators.getMenuXpath;
 public class reusableMethods {
 
     public static List<String> getXpath(String xpath) {
+        try {
+            Thread.sleep(2000);
+        } catch (Exception ignored) {
+        }
         List<WebElement> webElementList = driver.findElements(By.xpath(xpath));
         List<String> xpathList = new ArrayList<>();
         String elementXpath;
@@ -43,17 +47,20 @@ public class reusableMethods {
         return new Random().nextInt(n);
     }
 
+    public static int randomNumberGenerator(int origin, int bound) {
+        return new Random().nextInt(origin, bound);
+    }
+
     public static void clickOnRandomWebElement(String xpath) {
-        List<String> xpathOfWebelements = getXpath(xpath);
-        String randomXpath = selectRandomXpath(xpathOfWebelements);
+        List<String> xpathOfWebElements = getXpath(xpath);
+        String randomXpath = selectRandomXpath(xpathOfWebElements);
         try {
             Thread.sleep(5000);
-        } catch (Exception e) {
-            e.printStackTrace();
+            WebElement randomItem = driver.findElement(By.xpath(randomXpath));
+            System.out.println("randomItem = " + randomItem.getText());
+            randomItem.click();
+        } catch (Exception ignored) {
         }
-        WebElement randomItem = driver.findElement(By.xpath(randomXpath));
-        System.out.println("randomItem = " + randomItem.getText());
-        randomItem.click();
     }
 
     public static void switchToNewTab(WebDriver webDriver) {
@@ -63,13 +70,13 @@ public class reusableMethods {
         }
     }
 
-    public static void selectOption(String xpath){
+    public static void selectOption(String xpath) {
         Select ops;
         List<WebElement> opsList;
         WebElement selection;
         ops = new Select(driver.findElement(By.xpath(xpath)));
         opsList = ops.getOptions();
-        selection = opsList.get(randomNumberGenerator(opsList.size()));
+        selection = opsList.get(randomNumberGenerator(1, opsList.size()));
         selection.click();
     }
 }

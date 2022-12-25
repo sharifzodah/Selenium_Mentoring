@@ -2,12 +2,9 @@ package Etsy;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static utils.BaseClass.*;
@@ -17,7 +14,7 @@ import static utils.reusableMethods.*;
 public class VinylSticker {
 
     @Test
-    public static void addVinylSticker() throws InterruptedException {
+    public static void addSpecificItem() throws InterruptedException {
         List<String> selectOpsXpath_List;
         String text = "Test";
 
@@ -39,15 +36,15 @@ public class VinylSticker {
         Thread.sleep(2000);
         driver.findElement(By.xpath(getAddToCart())).click();
 
-        boolean isCurrentURL = driver.getCurrentUrl().equalsIgnoreCase("https://www.etsy.com/cart");
-        if (isCurrentURL) {
-            try {
-                Thread.sleep(2000);
-                driver.findElement(By.xpath(getViewCart())).click();
-            } catch (Exception e1) {
-                Thread.sleep(2000);
-                driver.findElement(By.xpath(getGoToCart())).click();
-            }
+        try {
+            Thread.sleep(2000);
+            driver.findElement(By.xpath(getViewCart())).click();
+        } catch (Exception ignored) {
+        }
+        try {
+            Thread.sleep(2000);
+            driver.findElement(By.xpath(getGoToCart())).click();
+        } catch (Exception ignored) {
         }
 
         Thread.sleep(2000);
@@ -71,8 +68,9 @@ public class VinylSticker {
             clickOnRandomWebElement(getItemListXpath());
         } catch (Exception e) {
             System.out.println("Current category has no listed products");
-            driver = null;
             tearDown();
+            System.out.println(driver);
+            driver = null;
         }
 
         if (driver != null) {
@@ -118,7 +116,8 @@ public class VinylSticker {
             try {
                 WebElement checkout = driver.findElement(By.xpath(getCheckOut()));
                 Assert.assertTrue(checkout.getText().contains("Proceed to checkout"));
-            } catch (Exception ignored) {
+            } catch (Exception e4) {
+                System.out.println("Other payment method required before checkout");
             }
         }
         Thread.sleep(3000);
