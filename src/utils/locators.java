@@ -3,6 +3,7 @@ package utils;
 public class locators {
 
     public static String url = "https://www.etsy.com";
+    public static String url1 = "https://www.etsy.com/listing/501125290/soccer-decal-personalized-soccer-ball?ga_order=most_relevant&ga_search_type=all&ga_view_type=gallery&ga_search_query=&ref=sr_gallery-1-16&pro=1&organic_search_click=1";
     final static String menuXpath = "//ul[@data-ui='top-nav-category-list']//span";
     final static String itemListXpath = "//h1[@id = 'search-results-top']/following::a/div[2]/h3";
     final static String selectOpsXpath = "//div[@data-selector = 'listing-page-variations' ]//select";

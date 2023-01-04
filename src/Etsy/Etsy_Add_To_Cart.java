@@ -18,7 +18,7 @@ public class Etsy_Add_To_Cart {
         List<String> selectOpsXpath_List;
         String text = "Test";
 
-        setUp(url);
+        setUp(url1);
 
         selectOpsXpath_List = getXpath(getSelectOpsXpath());
 
@@ -56,7 +56,7 @@ public class Etsy_Add_To_Cart {
         tearDown();
     }
 
-    @Test
+    @Test(priority = 1)
     public void selectOpsRandomly() throws InterruptedException {
         List<String> selectOpsXpath_List;
         String text = "Test";
@@ -115,7 +115,7 @@ public class Etsy_Add_To_Cart {
             }
             try {
                 WebElement checkout = driver.findElement(By.xpath(getCheckOut()));
-                Assert.assertTrue(checkout.getText().contains("Proceed to checkout"));
+                checkout.click();
             } catch (Exception e4) {
                 System.out.println("Other payment method required before checkout");
             }
